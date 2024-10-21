@@ -15,7 +15,7 @@ namespace BugTracker.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-SV2RLN2\\MSSQLSERVER01;Initial Catalog=BugTrackerDB;Integrated Security=SSPI;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-EBPQHUK;Initial Catalog=BugTrackerDB;Integrated Security=SSPI;TrustServerCertificate=True;");
             base.OnConfiguring(optionsBuilder);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
