@@ -29,6 +29,10 @@ namespace BugTracker
         public static void InitializeIssuesDb()
         {
             var context = GetService<TrackerContext>();
+            if(context.Issues.Any())
+            {
+                return;
+            }
             try
             {   
                 for (int i = 0; i<10; i++)
@@ -54,6 +58,10 @@ namespace BugTracker
         public static void InitializeUsersDb()
         {
             var context = GetService<TrackerContext>();
+            if(context.Users.Any())
+            {
+                return;
+            }
             try
             {
                 context.Users.Add(new User() { UserName = "Admin", Password = "admin", Email = "admin@gmail.com", UserRole = User.Role.Admin});
@@ -67,6 +75,10 @@ namespace BugTracker
         public static void InitializeProjectDb()
         {
             var context = GetService<TrackerContext>();
+            if(context.Projects.Any())
+            {
+                return;
+            }
             try
             {
                 context.Projects.Add(new Project() { ProjectName = "One", StartDate = DateTime.Now, EndDate = DateTime.Now});
