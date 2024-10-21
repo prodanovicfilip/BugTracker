@@ -85,6 +85,9 @@ namespace BugTracker
             Services.AddTransient<LoginForm>();
             Services.AddTransient<MainForm>();
             Services.AddTransient<RegistrationForm>();
+            Services.AddTransient<AddProjectForm>();
+            Services.AddTransient<AddUserForm>();
+            Services.AddTransient<AddIssueForm>();
 
             Services.AddSingleton<IUserRepository, UserRepository>(); 
             Services.AddSingleton<IProjectRepository, ProjectRepository>(); 

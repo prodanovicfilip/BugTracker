@@ -13,11 +13,8 @@ namespace BugTracker
         private readonly IUserRepository _userRepository;
         private readonly IProjectRepository _projectRepository;
         private readonly IIssueRepository _issueRepository;
-        private List<User> _users;
         private User _user;
-        private List<Project> _projects;
         private Project _project;
-        private List<Issue> _issues;
         private Issue _issue;
         public MainForm(IUserRepository userRepository, IProjectRepository projectRepository, IIssueRepository issueRepository)
         {
@@ -25,6 +22,7 @@ namespace BugTracker
             _userRepository = userRepository;
             _projectRepository = projectRepository;
             _issueRepository = issueRepository;
+            PL_Users.Visible = false;
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -35,46 +33,43 @@ namespace BugTracker
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadData();
+            if (UserController.CurrentUser.UserRole == User.Role.Admin)
+            {
+                PL_Users.Visible = true;
+            }
         }
         private void LoadData()
         {
-            _users = _userRepository.GetAll().ToList();
-            if (_users == null || _users.Count() == 0)
+            if (_userRepository.GetAll() != null)
             {
-                return;
-            }
-            DGV_Users.DataSource = _users;
-            if (_users.Count > 0)
-            {
-                DGV_Users.Rows[0].Selected = true;
-                _user = _users[0];
+                DGV_Users.DataSource = _userRepository.GetAll();
+                if (_userRepository.GetAll().Count() > 0)
+                {
+                    DGV_Users.Rows[0].Selected = true;
+                    _user = _userRepository.GetAll().FirstOrDefault();
+                }
             }
 
-            _projects = _projectRepository.GetAll().ToList();
-            if (_projects == null || _projects.Count() == 0)
+            if (_projectRepository.GetAll() != null)
             {
-                return;
+                DGV_Projects.DataSource = _projectRepository.GetAll();
+                if (_projectRepository.GetAll().Count() > 0)
+                {
+                    DGV_Projects.Rows[0].Selected = true;
+                    _project = _projectRepository.GetAll().FirstOrDefault();
+                }
             }
-            DGV_Projects.DataSource = _projects;
-            if (_projects.Count > 0)
-            {
-                DGV_Projects.Rows[0].Selected = true;
-                _project = _projects[0];
-            }
-            
 
-            _issues = _issueRepository.GetAll().ToList();
-            if (_issues == null || _issues.Count() == 0)
+            if (_issueRepository.GetAll() != null)
             {
-                return;
+                DGV_Issues.DataSource = _issueRepository.GetAll();
+                if (_issueRepository.GetAll().Count() > 0)
+                {
+                    DGV_Issues.Rows[0].Selected = true;
+                    _issue = _issueRepository.GetAll().FirstOrDefault();
+                }
             }
-            DGV_Issues.DataSource = _issues;
-            if (_issues.Count > 0)
-            {
-                DGV_Issues.Rows[0].Selected = true;
-                _issue = _issues[0];
-            }
-            
+
         }
 
         //Assigned projects? assigned issues?
@@ -99,10 +94,10 @@ namespace BugTracker
                 catch (Exception)
                 {
                     return;
-                }   
+                }
             }
             DGV_Users.DataSource = null;
-            DGV_Users.DataSource = _users;
+            DGV_Users.DataSource = _userRepository.GetAll();
         }
         private void BT_ProjectRemove_Click(object sender, EventArgs e)
         {
@@ -118,7 +113,7 @@ namespace BugTracker
                 }
             }
             DGV_Projects.DataSource = null;
-            DGV_Projects.DataSource = _projects;
+            DGV_Projects.DataSource = _projectRepository.GetAll();
         }
         private void BT_IssueRemove_Click(object sender, EventArgs e)
         {
@@ -139,7 +134,7 @@ namespace BugTracker
                 }
             }
             DGV_Issues.DataSource = null;
-            DGV_Issues.DataSource = _issues;
+            DGV_Issues.DataSource = _issueRepository.GetAll();
         }
         private void DGV_Projects_MouseDown(object sender, MouseEventArgs e)
         {
@@ -148,10 +143,9 @@ namespace BugTracker
             if (hit.RowIndex != -1)
             {
                 DGV_Projects.Rows[hit.RowIndex].Selected = true;
-                _project = _projects[hit.RowIndex];
+                _project = _projectRepository.GetAll().ToList()[hit.RowIndex];
             }
         }
-
         private void DGV_Users_MouseDown(object sender, MouseEventArgs e)
         {
             var hit = DGV_Users.HitTest(e.X, e.Y);
@@ -159,10 +153,9 @@ namespace BugTracker
             if (hit.RowIndex != -1)
             {
                 DGV_Users.Rows[hit.RowIndex].Selected = true;
-                _user = _users[hit.RowIndex];
+                _user = _userRepository.GetAll().ToList()[hit.RowIndex];
             }
         }
-
         private void DGV_Issues_MouseDown(object sender, MouseEventArgs e)
         {
             var hit = DGV_Issues.HitTest(e.X, e.Y);
@@ -170,10 +163,32 @@ namespace BugTracker
             if (hit.RowIndex != -1)
             {
                 DGV_Issues.Rows[hit.RowIndex].Selected = true;
-                _issue = _issues[hit.RowIndex];
+                _issue = _issueRepository.GetAll().ToList()[hit.RowIndex];
             }
         }
 
-        
+        private void BT_ProjectAdd_Click(object sender, EventArgs e)
+        {
+            var form = Program.GetService<AddProjectForm>();
+            form.ShowDialog();
+            DGV_Projects.DataSource = null;
+            DGV_Projects.DataSource = _projectRepository.GetAll();
+        }
+
+        private void BT_UserAdd_Click(object sender, EventArgs e)
+        {
+            var form = Program.GetService<AddUserForm>();
+            form.ShowDialog();
+            DGV_Users.DataSource = null;
+            DGV_Users.DataSource = _userRepository.GetAll();
+        }
+
+        private void BT_IssueAdd_Click(object sender, EventArgs e)
+        {
+            var form = Program.GetService<AddIssueForm>();
+            form.ShowDialog();
+            DGV_Issues.DataSource = null;
+            DGV_Issues.DataSource = _issueRepository.GetAll();
+        }
     }
 }
