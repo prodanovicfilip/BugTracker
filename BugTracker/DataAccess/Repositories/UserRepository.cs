@@ -1,6 +1,7 @@
 ﻿using BugTracker.DataAccess.Entities;
 using BugTracker.DataAccess.Infrastructure;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using static BugTracker.DataAccess.Entities.User;
 
@@ -26,13 +27,13 @@ namespace BugTracker.DataAccess.Repositories
 
         public IEnumerable<User> GetAll()
         {
-            return _context.Users.ToList();
+            return _context.Users.Include(s => s.AssignedProjects).Include(p => p.AssignedIssues).ToList();
         }
 
         public User GetById(int id)
         {
             if (id <= 0) throw new ArgumentException("id");
-            var entity = _context.Users.FirstOrDefault(u => u.Id == id);
+            var entity = _context.Users.Include(s => s.AssignedProjects).Include(p => p.AssignedIssues).FirstOrDefault(u => u.Id == id);
             if (entity == null) throw new ArgumentNullException("Entity not found");
 
             return entity;
@@ -77,7 +78,7 @@ namespace BugTracker.DataAccess.Repositories
             {
                 // Regular users are assigned to specific projects
                 return _context.Projects
-                    .Where(p => p.Id == user.ProjectId)
+                    .Where(p => user.AssignedProjects.Select(s => s.Id).Contains(p.Id))
                     .ToList();
             }
         }

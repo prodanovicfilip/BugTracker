@@ -56,7 +56,7 @@ namespace BugTracker
             var context = GetService<TrackerContext>();
             try
             {
-                context.Users.Add(new User() { UserName = "Admin", Password = "admin", Email = "admin@gmail.com", UserRole = User.Role.Admin, ProjectId = 1 });
+                context.Users.Add(new User() { UserName = "Admin", Password = "admin", Email = "admin@gmail.com", UserRole = User.Role.Admin});
                 context.SaveChanges();
             }
             catch (Exception)

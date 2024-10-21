@@ -35,18 +35,11 @@ namespace BugTracker.Migrations
                     UserName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserRole = table.Column<int>(type: "int", nullable: false),
-                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                    UserRole = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,6 +72,30 @@ namespace BugTracker.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProjectUser",
+                columns: table => new
+                {
+                    AssignedProjectsId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectUser", x => new { x.AssignedProjectsId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_ProjectUser_Projects_AssignedProjectsId",
+                        column: x => x.AssignedProjectsId,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectUser_Users_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Issues_ProjectId",
                 table: "Issues",
@@ -96,9 +113,9 @@ namespace BugTracker.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_ProjectId",
-                table: "Users",
-                column: "ProjectId");
+                name: "IX_ProjectUser_UsersId",
+                table: "ProjectUser",
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserName",
@@ -114,10 +131,13 @@ namespace BugTracker.Migrations
                 name: "Issues");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "ProjectUser");
 
             migrationBuilder.DropTable(
                 name: "Projects");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

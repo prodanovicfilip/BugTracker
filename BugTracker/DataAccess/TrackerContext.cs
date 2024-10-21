@@ -22,6 +22,8 @@ namespace BugTracker.DataAccess
         {
             // One-to-Many: A User can have many assigned Issues
             modelBuilder.Entity<Issue>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<Issue>()
                 .HasOne(i => i.AssignedToUser)
                 .WithMany(u => u.AssignedIssues)
                 .HasForeignKey(i => i.UserId)
@@ -34,10 +36,17 @@ namespace BugTracker.DataAccess
                 .OnDelete(DeleteBehavior.Restrict);  
 
             modelBuilder.Entity<User>()
-                .HasOne(u => u.AssignedProject)
-                .WithMany(p => p.Users)
-                .HasForeignKey(u => u.ProjectId)
-                .OnDelete(DeleteBehavior.Restrict);  
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.AssignedProjects)
+                .WithMany(s => s.Users);
+            
+            modelBuilder.Entity<Project>()
+                .HasKey(e => e.Id);
+            modelBuilder.Entity<Project>()
+                .HasMany(s => s.Issues);
+            modelBuilder.Entity<Project>()
+                .HasMany(u => u.Users);
 
             base.OnModelCreating(modelBuilder);
 

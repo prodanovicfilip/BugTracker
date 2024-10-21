@@ -178,6 +178,7 @@ namespace BugTracker
         private void BT_UserAdd_Click(object sender, EventArgs e)
         {
             var form = Program.GetService<AddUserForm>();
+            form.AssignProject(_project);
             form.ShowDialog();
             DGV_Users.DataSource = null;
             DGV_Users.DataSource = _userRepository.GetAll();

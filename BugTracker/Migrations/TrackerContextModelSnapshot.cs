@@ -101,9 +101,6 @@ namespace BugTracker.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -113,12 +110,25 @@ namespace BugTracker.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId");
-
                     b.HasIndex("UserName")
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("ProjectUser", b =>
+                {
+                    b.Property<int>("AssignedProjectsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AssignedProjectsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("ProjectUser");
                 });
 
             modelBuilder.Entity("BugTracker.DataAccess.Entities.Issue", b =>
@@ -140,22 +150,24 @@ namespace BugTracker.Migrations
                     b.Navigation("RelatedProject");
                 });
 
-            modelBuilder.Entity("BugTracker.DataAccess.Entities.User", b =>
+            modelBuilder.Entity("ProjectUser", b =>
                 {
-                    b.HasOne("BugTracker.DataAccess.Entities.Project", "AssignedProject")
-                        .WithMany("Users")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("BugTracker.DataAccess.Entities.Project", null)
+                        .WithMany()
+                        .HasForeignKey("AssignedProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AssignedProject");
+                    b.HasOne("BugTracker.DataAccess.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BugTracker.DataAccess.Entities.Project", b =>
                 {
                     b.Navigation("Issues");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("BugTracker.DataAccess.Entities.User", b =>

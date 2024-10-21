@@ -24,10 +24,8 @@ namespace BugTracker.DataAccess.Entities
         public string Email { get; set; }
         public Role UserRole { get; set; }
 
-        // Foreign key to the Project entity
-        public int ProjectId { get; set; }
-        // Navigation property for the assigned Project
-        public Project AssignedProject { get; set; }
+        [JsonIgnore]
+        public ICollection<Project> AssignedProjects { get; set; }
 
         // Navigation property for the issues assigned to this user
         [JsonIgnore]

@@ -18,11 +18,14 @@ namespace BugTracker
     public partial class AddUserForm : Form
     {
         private readonly IUserRepository _userRepository;
-        public AddUserForm(IUserRepository userRepository)
+        private readonly IProjectRepository _projectRepository;
+        private Project _currentProject;
+        public AddUserForm(IUserRepository userRepository, IProjectRepository projectRepository)
         {
             InitializeComponent();
             _userRepository = userRepository;
             CB_Roles.DataSource = Enum.GetValues(typeof(User.Role));
+            _projectRepository = projectRepository;
         }
 
         private void BT_Create_Click(object sender, EventArgs e)
@@ -40,11 +43,18 @@ namespace BugTracker
                 MessageBox.Show("Select Role");
                 return;
             }
-            User.Role role = (User.Role)CB_Roles.SelectedItem;
+            User.Role role = (User.Role)CB_Roles.SelectedValue;
             var user = new User();
             user.UserName = username;
             user.Password = password;
             user.Email = email;
+            user.UserRole = role;
+            var project = _projectRepository.GetById(_currentProject.Id);
+            if (user.AssignedProjects == null)
+            {
+                user.AssignedProjects = new List<Project>();
+            }
+            user.AssignedProjects.Add(project);
             try
             {
                 _userRepository.Add(user);
@@ -57,6 +67,10 @@ namespace BugTracker
             }
             MessageBox.Show("User created successfully");
             this.Close();
+        }
+        public void AssignProject(Project project)
+        {
+            _currentProject = project;
         }
     }
 }
