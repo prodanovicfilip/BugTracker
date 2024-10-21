@@ -4,6 +4,7 @@ using BugTracker.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTracker.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    partial class TrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20241021183335_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,7 +80,12 @@ namespace BugTracker.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Projects");
                 });
@@ -110,21 +118,6 @@ namespace BugTracker.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
-                {
-                    b.Property<int>("AssignedProjectsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AssignedProjectsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("ProjectUser");
-                });
-
             modelBuilder.Entity("BugTracker.DataAccess.Entities.Issue", b =>
                 {
                     b.HasOne("BugTracker.DataAccess.Entities.Project", "RelatedProject")
@@ -144,19 +137,11 @@ namespace BugTracker.Migrations
                     b.Navigation("RelatedProject");
                 });
 
-            modelBuilder.Entity("ProjectUser", b =>
+            modelBuilder.Entity("BugTracker.DataAccess.Entities.Project", b =>
                 {
-                    b.HasOne("BugTracker.DataAccess.Entities.Project", null)
-                        .WithMany()
-                        .HasForeignKey("AssignedProjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BugTracker.DataAccess.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("AssignedProjects")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("BugTracker.DataAccess.Entities.Project", b =>
@@ -167,6 +152,8 @@ namespace BugTracker.Migrations
             modelBuilder.Entity("BugTracker.DataAccess.Entities.User", b =>
                 {
                     b.Navigation("AssignedIssues");
+
+                    b.Navigation("AssignedProjects");
                 });
 #pragma warning restore 612, 618
         }

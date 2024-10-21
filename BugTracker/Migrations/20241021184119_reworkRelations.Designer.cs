@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTracker.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    [Migration("20241021175322_initialMigration")]
-    partial class initialMigration
+    [Migration("20241021184119_reworkRelations")]
+    partial class reworkRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,15 +75,12 @@ namespace BugTracker.Migrations
 
                     b.Property<string>("ProjectName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectName")
-                        .IsUnique();
 
                     b.ToTable("Projects");
                 });
@@ -106,15 +103,12 @@ namespace BugTracker.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserRole")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserName")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -139,13 +133,13 @@ namespace BugTracker.Migrations
                     b.HasOne("BugTracker.DataAccess.Entities.Project", "RelatedProject")
                         .WithMany("Issues")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BugTracker.DataAccess.Entities.User", "AssignedToUser")
                         .WithMany("AssignedIssues")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AssignedToUser");

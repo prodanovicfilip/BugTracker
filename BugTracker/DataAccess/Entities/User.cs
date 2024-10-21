@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker.DataAccess.Entities
 {
-    [Index(nameof(UserName), IsUnique = true)]
     public class User
     {
         public User()
@@ -23,12 +22,7 @@ namespace BugTracker.DataAccess.Entities
         public string Password { get; set; }
         public string Email { get; set; }
         public Role UserRole { get; set; }
-
-        [JsonIgnore]
         public ICollection<Project> AssignedProjects { get; set; }
-
-        // Navigation property for the issues assigned to this user
-        [JsonIgnore]
         public ICollection<Issue> AssignedIssues { get; set; }
     }
 }
