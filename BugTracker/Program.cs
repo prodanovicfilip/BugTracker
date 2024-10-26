@@ -1,4 +1,3 @@
-using System;
 using BugTracker.DataAccess;
 using BugTracker.DataAccess.Entities;
 using BugTracker.DataAccess.Infrastructure;
@@ -13,7 +12,7 @@ namespace BugTracker
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
@@ -26,16 +25,17 @@ namespace BugTracker
             InitializeIssuesDb();
             Application.Run(form);
         }
+
         public static void InitializeIssuesDb()
         {
             var context = GetService<TrackerContext>();
-            if(context.Issues.Any())
+            if (context.Issues.Any())
             {
                 return;
             }
             try
-            {   
-                for (int i = 0; i<10; i++)
+            {
+                for (int i = 0; i < 10; i++)
                 {
                     context.Issues.Add(new Issue()
                     {
@@ -48,23 +48,23 @@ namespace BugTracker
                     });
                     context.SaveChanges();
                 }
-                
             }
             catch (Exception)
             {
                 return;
             }
         }
+
         public static void InitializeUsersDb()
         {
             var context = GetService<TrackerContext>();
-            if(context.Users.Any())
+            if (context.Users.Any())
             {
                 return;
             }
             try
             {
-                context.Users.Add(new User() { UserName = "Admin", Password = "admin", Email = "admin@gmail.com", UserRole = User.Role.Admin});
+                context.Users.Add(new User() { UserName = "Admin", Password = "admin", Email = "admin@gmail.com", UserRole = User.Role.Admin });
                 context.SaveChanges();
             }
             catch (Exception)
@@ -72,16 +72,17 @@ namespace BugTracker
                 return;
             }
         }
+
         public static void InitializeProjectDb()
         {
             var context = GetService<TrackerContext>();
-            if(context.Projects.Any())
+            if (context.Projects.Any())
             {
                 return;
             }
             try
             {
-                context.Projects.Add(new Project() { ProjectName = "One", StartDate = DateTime.Now, EndDate = DateTime.Now});
+                context.Projects.Add(new Project() { ProjectName = "One", StartDate = DateTime.Now, EndDate = DateTime.Now });
                 context.SaveChanges();
             }
             catch (Exception)
@@ -89,21 +90,26 @@ namespace BugTracker
                 return;
             }
         }
+
         private static IServiceCollection Services { get; set; } = new ServiceCollection();
         private static ServiceProvider ServiceProvider { get; set; }
+
         public static void RegisterServices()
         {
             Services.AddDbContext<TrackerContext>();
             Services.AddTransient<LoginForm>();
-            Services.AddTransient<MainForm>();
+            Services.AddSingleton<MainForm>();
             Services.AddTransient<RegistrationForm>();
             Services.AddTransient<AddProjectForm>();
             Services.AddTransient<AddUserForm>();
             Services.AddTransient<AddIssueForm>();
+            Services.AddTransient<ShowProjects>();
+            Services.AddTransient<ShowIssues>();
+            Services.AddTransient<ShowUsers>();
 
-            Services.AddSingleton<IUserRepository, UserRepository>(); 
-            Services.AddSingleton<IProjectRepository, ProjectRepository>(); 
-            Services.AddSingleton<IIssueRepository, IssueRepository>(); 
+            Services.AddSingleton<IUserRepository, UserRepository>();
+            Services.AddSingleton<IProjectRepository, ProjectRepository>();
+            Services.AddSingleton<IIssueRepository, IssueRepository>();
             //services.AddSingleton<IExportService, ExportService>();
         }
 
@@ -112,6 +118,7 @@ namespace BugTracker
             ServiceProvider = Services.BuildServiceProvider();
             form = ServiceProvider.GetRequiredService<LoginForm>();
         }
+
         public static T GetService<T>()
         {
             return (T)ServiceProvider.GetRequiredService<T>();
