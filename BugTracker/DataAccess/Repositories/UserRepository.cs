@@ -44,8 +44,9 @@ namespace BugTracker.DataAccess.Repositories
             if (id <= 0) throw new ArgumentException("id");
             var dbUser = _context.Users.FirstOrDefault(u => u.Id == id);
             if (dbUser == null) throw new Exception();
+            dbUser = user;
             // Adapt user(SOURCE).Adapt(DESTINACIJU) Mapira -> dbUser
-            user.Adapt(dbUser);
+            //user.Adapt(dbUser);
             _context.SaveChanges();
         }
 

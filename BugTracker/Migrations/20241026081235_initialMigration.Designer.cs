@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTracker.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    [Migration("20241025205431_initialMigration")]
+    [Migration("20241026081235_initialMigration")]
     partial class initialMigration
     {
         /// <inheritdoc />
@@ -50,14 +50,9 @@ namespace BugTracker.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ProjectId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Issues");
                 });
@@ -113,6 +108,21 @@ namespace BugTracker.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("IssueUser", b =>
+                {
+                    b.Property<int>("AssignedIssuesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AssignedIssuesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("IssueUser");
+                });
+
             modelBuilder.Entity("ProjectUser", b =>
                 {
                     b.Property<int>("AssignedProjectsId")
@@ -136,15 +146,22 @@ namespace BugTracker.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BugTracker.DataAccess.Entities.User", "AssignedToUser")
-                        .WithMany("AssignedIssues")
-                        .HasForeignKey("UserId")
+                    b.Navigation("RelatedProject");
+                });
+
+            modelBuilder.Entity("IssueUser", b =>
+                {
+                    b.HasOne("BugTracker.DataAccess.Entities.Issue", null)
+                        .WithMany()
+                        .HasForeignKey("AssignedIssuesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AssignedToUser");
-
-                    b.Navigation("RelatedProject");
+                    b.HasOne("BugTracker.DataAccess.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ProjectUser", b =>
@@ -165,11 +182,6 @@ namespace BugTracker.Migrations
             modelBuilder.Entity("BugTracker.DataAccess.Entities.Project", b =>
                 {
                     b.Navigation("Issues");
-                });
-
-            modelBuilder.Entity("BugTracker.DataAccess.Entities.User", b =>
-                {
-                    b.Navigation("AssignedIssues");
                 });
 #pragma warning restore 612, 618
         }

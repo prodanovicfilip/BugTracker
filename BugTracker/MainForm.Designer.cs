@@ -36,7 +36,9 @@
             panel1 = new Panel();
             childPanel = new Panel();
             panel2 = new Panel();
+            label1 = new Label();
             sideMenuPanel.SuspendLayout();
+            childPanel.SuspendLayout();
             SuspendLayout();
             // 
             // sideMenuPanel
@@ -121,6 +123,7 @@
             // childPanel
             // 
             childPanel.BackColor = Color.FromArgb(33, 31, 45);
+            childPanel.Controls.Add(label1);
             childPanel.Location = new Point(300, 3);
             childPanel.Name = "childPanel";
             childPanel.Size = new Size(1278, 658);
@@ -133,6 +136,18 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(1278, 77);
             panel2.TabIndex = 22;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.None;
+            label1.AutoSize = true;
+            label1.Font = new Font("Yu Gothic UI", 40F, FontStyle.Bold);
+            label1.ForeColor = Color.FromArgb(244, 40, 89);
+            label1.Location = new Point(438, 254);
+            label1.Name = "label1";
+            label1.Size = new Size(384, 106);
+            label1.TabIndex = 0;
+            label1.Text = "Welcome";
             // 
             // MainForm
             // 
@@ -153,6 +168,8 @@
             FormClosed += MainForm_FormClosed;
             Load += MainForm_Load;
             sideMenuPanel.ResumeLayout(false);
+            childPanel.ResumeLayout(false);
+            childPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -164,5 +181,6 @@
         private Button BT_ShowUsers;
         private Button BT_ShowIssues;
         private Panel panel2;
+        private Label label1;
     }
 }

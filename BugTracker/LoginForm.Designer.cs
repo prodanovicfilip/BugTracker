@@ -41,7 +41,7 @@
             // TB_Username
             // 
             TB_Username.Location = new Point(146, 48);
-            TB_Username.Margin = new Padding(4, 4, 4, 4);
+            TB_Username.Margin = new Padding(4);
             TB_Username.Name = "TB_Username";
             TB_Username.Size = new Size(208, 31);
             TB_Username.TabIndex = 0;
@@ -49,7 +49,7 @@
             // TB_Password
             // 
             TB_Password.Location = new Point(146, 95);
-            TB_Password.Margin = new Padding(4, 4, 4, 4);
+            TB_Password.Margin = new Padding(4);
             TB_Password.Name = "TB_Password";
             TB_Password.Size = new Size(208, 31);
             TB_Password.TabIndex = 1;
@@ -78,7 +78,7 @@
             // BT_Login
             // 
             BT_Login.Location = new Point(112, 158);
-            BT_Login.Margin = new Padding(4, 4, 4, 4);
+            BT_Login.Margin = new Padding(4);
             BT_Login.Name = "BT_Login";
             BT_Login.Size = new Size(118, 36);
             BT_Login.TabIndex = 4;
@@ -89,7 +89,7 @@
             // BT_Signup
             // 
             BT_Signup.Location = new Point(237, 158);
-            BT_Signup.Margin = new Padding(4, 4, 4, 4);
+            BT_Signup.Margin = new Padding(4);
             BT_Signup.Name = "BT_Signup";
             BT_Signup.Size = new Size(118, 36);
             BT_Signup.TabIndex = 5;
@@ -118,8 +118,9 @@
             BackgroundImageLayout = ImageLayout.None;
             ClientSize = new Size(704, 419);
             Controls.Add(panel1);
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "LoginForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "LoginForm";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

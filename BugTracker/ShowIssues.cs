@@ -79,8 +79,9 @@ namespace BugTracker
                     {
                         _issueRepository.DeleteById(_issue.Id);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        MessageBox.Show(ex.Message);
                         return;
                     }
                 }
@@ -89,7 +90,7 @@ namespace BugTracker
             }
 
         }
-
+        bool validClick = false;
         private void DGV_Issues_MouseDown(object sender, MouseEventArgs e)
         {
             var hit = DGV_Issues.HitTest(e.X, e.Y);
@@ -98,6 +99,20 @@ namespace BugTracker
             {
                 DGV_Issues.Rows[hit.RowIndex].Selected = true;
                 _issue = _issueRepository.GetAll().ToList()[hit.RowIndex];
+                validClick = true;
+            }
+            else validClick = false;
+        }
+
+        private void TS_Assign_Click(object sender, EventArgs e)
+        {
+            if (validClick)
+            {
+                var mainForm = Program.GetService<MainForm>();
+                var selectionForm = Program.GetService<UserSelectionForm>();
+
+                selectionForm.SetIssue(_issue);
+                mainForm.OpenChildForm(selectionForm);
             }
         }
     }

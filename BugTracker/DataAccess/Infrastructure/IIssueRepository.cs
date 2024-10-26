@@ -9,5 +9,6 @@ namespace BugTracker.DataAccess.Infrastructure
         public Issue GetById(int id);
         public void Update(int id, Issue issue);
         public void DeleteById(int id);
+        public void AddUser(int issueId, User user);
     }
 }

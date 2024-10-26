@@ -31,13 +31,13 @@ namespace BugTracker.DataAccess.Repositories
 
         public IEnumerable<Project> GetAll()
         {
-            return _context.Projects.ToList();
+            return _context.Projects.Include(p => p.Users).Include(k => k.Issues).ToList();
         }
 
         public Project GetById(int id)
         {
             if (id <= 0) throw new ArgumentException("id < 0");
-            var entity = _context.Projects.FirstOrDefault(p => p.Id == id);
+            var entity = _context.Projects.Include(p => p.Users).Include(k => k.Issues).FirstOrDefault(p => p.Id == id);
             if (entity == null) throw new ArgumentNullException("Entity not found");
 
             return entity;
@@ -62,7 +62,7 @@ namespace BugTracker.DataAccess.Repositories
             }
 
             _context.Projects.Remove(entity);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
     }
 }

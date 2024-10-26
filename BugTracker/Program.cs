@@ -35,6 +35,7 @@ namespace BugTracker
             }
             try
             {
+                var project = context.Projects.First();
                 for (int i = 0; i < 10; i++)
                 {
                     context.Issues.Add(new Issue()
@@ -43,15 +44,16 @@ namespace BugTracker
                         Description = "Feature " + i + " is broken",
                         Priority = Issue.PriorityLevel.Low,
                         Status = Issue.IssueStatus.Open,
-                        UserId = 1,
-                        ProjectId = 1
+                        //UserId = 1,
+                        ProjectId = project.Id
                     });
                     context.SaveChanges();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return;
+                throw ex;
+                //return;
             }
         }
 
@@ -106,6 +108,7 @@ namespace BugTracker
             Services.AddTransient<ShowProjects>();
             Services.AddTransient<ShowIssues>();
             Services.AddTransient<ShowUsers>();
+            Services.AddTransient<UserSelectionForm>();
 
             Services.AddSingleton<IUserRepository, UserRepository>();
             Services.AddSingleton<IProjectRepository, ProjectRepository>();

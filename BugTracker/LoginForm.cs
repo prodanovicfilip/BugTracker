@@ -48,7 +48,8 @@ namespace BugTracker
                 }
                 UserController.CurrentUser = currentUser;
                 var form = Program.GetService<MainForm>();
-                form.ShowDialog();
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.Show();
                 this.Hide();
             }
             catch (Exception ex)

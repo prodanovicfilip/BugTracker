@@ -52,7 +52,6 @@ namespace BugTracker.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -62,12 +61,6 @@ namespace BugTracker.Migrations
                         name: "FK_Issues_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Issues_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -96,15 +89,39 @@ namespace BugTracker.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "IssueUser",
+                columns: table => new
+                {
+                    AssignedIssuesId = table.Column<int>(type: "int", nullable: false),
+                    UsersId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IssueUser", x => new { x.AssignedIssuesId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_IssueUser_Issues_AssignedIssuesId",
+                        column: x => x.AssignedIssuesId,
+                        principalTable: "Issues",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IssueUser_Users_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Issues_ProjectId",
                 table: "Issues",
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Issues_UserId",
-                table: "Issues",
-                column: "UserId");
+                name: "IX_IssueUser_UsersId",
+                table: "IssueUser",
+                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectUser_UsersId",
@@ -116,16 +133,19 @@ namespace BugTracker.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Issues");
+                name: "IssueUser");
 
             migrationBuilder.DropTable(
                 name: "ProjectUser");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "Issues");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Projects");
         }
     }
 }

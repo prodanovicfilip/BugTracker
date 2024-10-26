@@ -21,10 +21,9 @@ namespace BugTracker.DataAccess.Entities
         public PriorityLevel Priority { get; set; }
         public IssueStatus Status { get; set; }
 
-        // Foreign key to the User entity
-        public int UserId { get; set; }
-        // Navigation property for the assigned User
-        public User AssignedToUser { get; set; }
+        //public int UserId { get; set; }
+        //public User AssignedToUser { get; set; }
+        public ICollection<User> Users { get; set; }
 
         // Foreign key to the Project entity
         public int ProjectId { get; set; }

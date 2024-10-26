@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
@@ -37,7 +38,10 @@
             BT_IssueRemove = new Button();
             DGV_Issues = new DataGridView();
             BT_SearchIssue = new TextBox();
+            CT_Context = new ContextMenuStrip(components);
+            TS_Assign = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)DGV_Issues).BeginInit();
+            CT_Context.SuspendLayout();
             SuspendLayout();
             // 
             // label3
@@ -118,6 +122,7 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             DGV_Issues.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             DGV_Issues.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DGV_Issues.ContextMenuStrip = CT_Context;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = Color.FromArgb(33, 31, 45);
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
@@ -147,6 +152,20 @@
             BT_SearchIssue.TabIndex = 16;
             BT_SearchIssue.TextChanged += BT_SearchIssue_TextChanged;
             // 
+            // CT_Context
+            // 
+            CT_Context.ImageScalingSize = new Size(24, 24);
+            CT_Context.Items.AddRange(new ToolStripItem[] { TS_Assign });
+            CT_Context.Name = "CT_Context";
+            CT_Context.Size = new Size(241, 69);
+            // 
+            // TS_Assign
+            // 
+            TS_Assign.Name = "TS_Assign";
+            TS_Assign.Size = new Size(240, 32);
+            TS_Assign.Text = "Assign Users";
+            TS_Assign.Click += TS_Assign_Click;
+            // 
             // ShowIssues
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -163,6 +182,7 @@
             Text = "ShowIssues";
             Load += ShowIssues_Load;
             ((System.ComponentModel.ISupportInitialize)DGV_Issues).EndInit();
+            CT_Context.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -175,5 +195,7 @@
         private Button BT_IssueRemove;
         private DataGridView DGV_Issues;
         private TextBox BT_SearchIssue;
+        private ContextMenuStrip CT_Context;
+        private ToolStripMenuItem TS_Assign;
     }
 }
