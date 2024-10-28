@@ -48,6 +48,7 @@ namespace BugTracker
                 }
                 BT_Create.Text = "Edit";
                 CB_Users.Visible = false;
+                LB_User.Visible = false;
             }
         }
         private void BT_Create_Click(object sender, EventArgs e)

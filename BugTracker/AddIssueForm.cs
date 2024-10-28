@@ -43,11 +43,16 @@ namespace BugTracker
             {
                 LB_Status.Visible = false;
                 CB_Status.Visible = false;
+                LB_Project.Visible = true;
+                CB_Projects.Visible = true;
+                BT_Create.Text = "Add";
             }
             else
             {
                 LB_Status.Visible = true;
                 CB_Status.Visible = true;
+                LB_Project.Visible = false;
+                CB_Projects.Visible = false;
                 BT_Create.Text = "Edit";
                 if (_issue != null)
                 {
@@ -115,6 +120,7 @@ namespace BugTracker
                     return;
                 }
                 MessageBox.Show("Issue modified successfully");
+                this.Close();
             }
             else
             {
@@ -149,8 +155,8 @@ namespace BugTracker
             issue.Priority = (Issue.PriorityLevel)CB_Priority.SelectedItem;
             //Related project
             var relatedProjectName = CB_Projects.SelectedItem;
-            _issue.RelatedProject = _projectRepository.GetAll().FirstOrDefault(n => n.ProjectName.Equals(relatedProjectName));
-            if (_issue.RelatedProject == null)
+            issue.RelatedProject = _projectRepository.GetAll().FirstOrDefault(n => n.ProjectName.Equals(relatedProjectName));
+            if (issue.RelatedProject == null)
             {
                 MessageBox.Show("Couldn't find project with that name");
                 return;

@@ -63,5 +63,10 @@ namespace BugTracker
         {
             OpenChildForm(Program.GetService<ShowUsers>());
         }
+
+        private void BT_UserProfile_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(Program.GetService<UserProfile>());
+        }
     }
 }

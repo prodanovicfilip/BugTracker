@@ -9,11 +9,14 @@ namespace BugTracker
     {
         private readonly IIssueRepository _issueRepository;
         private Issue _issue;
+        private bool validClick = false;
+
         public ShowIssues(IIssueRepository issueRepository)
         {
             InitializeComponent();
             _issueRepository = issueRepository;
         }
+
         private void ShowIssues_Load(object sender, EventArgs e)
         {
             if (_issueRepository.GetAll() != null)
@@ -41,29 +44,44 @@ namespace BugTracker
 
         private void BT_IssueAdd_Click(object sender, EventArgs e)
         {
-            var mainForm = Program.GetService<MainForm>();
-            var addIssueForm = Program.GetService<AddIssueForm>();
-            addIssueForm.SetMode(AddIssueForm.Modes.Add);
+            if (Utils.IsAllowed())
+            {
+                var mainForm = Program.GetService<MainForm>();
+                var addIssueForm = Program.GetService<AddIssueForm>();
+                addIssueForm.SetMode(AddIssueForm.Modes.Add);
 
-            mainForm.OpenChildForm(addIssueForm);
-
-            //addIssueForm.ShowDialog();
-            //DGV_Issues.DataSource = null;
-            //DGV_Issues.DataSource = _issueRepository.GetAll();
+                mainForm.OpenChildForm(addIssueForm);
+            }
+            else
+            {
+                MessageBox.Show("User is not allowed to do that action");
+            }
         }
 
         private void BT_IssueEdit_Click(object sender, EventArgs e)
         {
-            var mainForm = Program.GetService<MainForm>();
-            var addIssueForm = Program.GetService<AddIssueForm>();
-            addIssueForm.SetMode(AddIssueForm.Modes.Edit);
-            addIssueForm.SetIssue(_issue);
+            if (Utils.IsAllowed(_issue))
+            {
+                var mainForm = Program.GetService<MainForm>();
+                var addIssueForm = Program.GetService<AddIssueForm>();
+                addIssueForm.SetMode(AddIssueForm.Modes.Edit);
+                addIssueForm.SetIssue(_issue);
 
-            mainForm.OpenChildForm(addIssueForm);
+                mainForm.OpenChildForm(addIssueForm);
+            }
+            else
+            {
+                MessageBox.Show("User is not allowed to do that action");
+            }
         }
 
         private void BT_IssueRemove_Click(object sender, EventArgs e)
         {
+            if (!Utils.IsAllowed(_issue))
+            {
+                MessageBox.Show("User is not allowed to do that action");
+                return;
+            }
             DialogResult result = MessageBox.Show("Are you sure you want to proceed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
@@ -88,9 +106,8 @@ namespace BugTracker
                 DGV_Issues.DataSource = null;
                 DGV_Issues.DataSource = _issueRepository.GetAll();
             }
-
         }
-        bool validClick = false;
+
         private void DGV_Issues_MouseDown(object sender, MouseEventArgs e)
         {
             var hit = DGV_Issues.HitTest(e.X, e.Y);
@@ -106,6 +123,11 @@ namespace BugTracker
 
         private void TS_Assign_Click(object sender, EventArgs e)
         {
+            if (!Utils.IsAllowed())
+            {
+                MessageBox.Show("User is not allowed to do that action");
+                return;
+            }
             if (validClick)
             {
                 var mainForm = Program.GetService<MainForm>();

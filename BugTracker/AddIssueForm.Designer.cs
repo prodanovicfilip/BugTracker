@@ -38,7 +38,7 @@
             CB_Status = new ComboBox();
             LB_Status = new Label();
             panel1 = new Panel();
-            label4 = new Label();
+            LB_Project = new Label();
             CB_Projects = new ComboBox();
             BT_Close = new Button();
             panel1.SuspendLayout();
@@ -129,7 +129,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(33, 31, 45);
-            panel1.Controls.Add(label4);
+            panel1.Controls.Add(LB_Project);
             panel1.Controls.Add(CB_Projects);
             panel1.Controls.Add(BT_Close);
             panel1.Controls.Add(label1);
@@ -146,17 +146,17 @@
             panel1.Size = new Size(1232, 578);
             panel1.TabIndex = 10;
             // 
-            // label4
+            // LB_Project
             // 
-            label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label4.ForeColor = SystemColors.Control;
-            label4.Location = new Point(915, 25);
-            label4.Name = "label4";
-            label4.Size = new Size(72, 25);
-            label4.TabIndex = 16;
-            label4.Text = "Project";
+            LB_Project.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            LB_Project.AutoSize = true;
+            LB_Project.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            LB_Project.ForeColor = SystemColors.Control;
+            LB_Project.Location = new Point(915, 25);
+            LB_Project.Name = "LB_Project";
+            LB_Project.Size = new Size(72, 25);
+            LB_Project.TabIndex = 16;
+            LB_Project.Text = "Project";
             // 
             // CB_Projects
             // 
@@ -212,6 +212,6 @@
         private Panel panel1;
         private Button BT_Close;
         private ComboBox CB_Projects;
-        private Label label4;
+        private Label LB_Project;
     }
 }

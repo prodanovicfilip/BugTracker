@@ -42,6 +42,11 @@ namespace BugTracker
 
         private void BT_ProjectAdd_Click(object sender, EventArgs e)
         {
+            if (!Utils.IsAllowed())
+            {
+                MessageBox.Show("User is not allowed to do that action");
+                return;
+            }
             var mainForm = Program.GetService<MainForm>();
             var addProjectForm = Program.GetService<AddProjectForm>();
 
@@ -51,6 +56,11 @@ namespace BugTracker
 
         private void BT_ProjectEdit_Click(object sender, EventArgs e)
         {
+            if (!Utils.IsAllowed(_project))
+            {
+                MessageBox.Show("User is not allowed to do that action");
+                return;
+            }
             var mainForm = Program.GetService<MainForm>();
             var addProjectForm = Program.GetService<AddProjectForm>();
 
@@ -61,6 +71,11 @@ namespace BugTracker
 
         private void BT_ProjectRemove_Click(object sender, EventArgs e)
         {
+            if (!Utils.IsAllowed(_project))
+            {
+                MessageBox.Show("User is not allowed to do that action");
+                return;
+            }
             DialogResult result = MessageBox.Show("Are you sure you want to proceed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)

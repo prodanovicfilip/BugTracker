@@ -30,19 +30,21 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             sideMenuPanel = new Panel();
+            BT_UserProfile = new Button();
             BT_ShowUsers = new Button();
             BT_ShowIssues = new Button();
             BT_ShowProjects = new Button();
             panel1 = new Panel();
             childPanel = new Panel();
-            panel2 = new Panel();
             label1 = new Label();
+            panel2 = new Panel();
             sideMenuPanel.SuspendLayout();
             childPanel.SuspendLayout();
             SuspendLayout();
             // 
             // sideMenuPanel
             // 
+            sideMenuPanel.Controls.Add(BT_UserProfile);
             sideMenuPanel.Controls.Add(BT_ShowUsers);
             sideMenuPanel.Controls.Add(BT_ShowIssues);
             sideMenuPanel.Controls.Add(BT_ShowProjects);
@@ -52,6 +54,25 @@
             sideMenuPanel.Name = "sideMenuPanel";
             sideMenuPanel.Size = new Size(300, 744);
             sideMenuPanel.TabIndex = 20;
+            // 
+            // BT_UserProfile
+            // 
+            BT_UserProfile.BackColor = Color.FromArgb(11, 8, 20);
+            BT_UserProfile.Dock = DockStyle.Top;
+            BT_UserProfile.FlatAppearance.BorderColor = Color.FromArgb(23, 22, 36);
+            BT_UserProfile.FlatAppearance.MouseOverBackColor = Color.FromArgb(33, 31, 45);
+            BT_UserProfile.FlatStyle = FlatStyle.Flat;
+            BT_UserProfile.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            BT_UserProfile.ForeColor = SystemColors.Control;
+            BT_UserProfile.Location = new Point(0, 317);
+            BT_UserProfile.Name = "BT_UserProfile";
+            BT_UserProfile.Padding = new Padding(20, 0, 0, 0);
+            BT_UserProfile.Size = new Size(300, 60);
+            BT_UserProfile.TabIndex = 4;
+            BT_UserProfile.Text = "User Profile";
+            BT_UserProfile.TextAlign = ContentAlignment.MiddleLeft;
+            BT_UserProfile.UseVisualStyleBackColor = false;
+            BT_UserProfile.Click += BT_UserProfile_Click;
             // 
             // BT_ShowUsers
             // 
@@ -129,14 +150,6 @@
             childPanel.Size = new Size(1278, 658);
             childPanel.TabIndex = 21;
             // 
-            // panel2
-            // 
-            panel2.Dock = DockStyle.Bottom;
-            panel2.Location = new Point(300, 667);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1278, 77);
-            panel2.TabIndex = 22;
-            // 
             // label1
             // 
             label1.Anchor = AnchorStyles.None;
@@ -148,6 +161,14 @@
             label1.Size = new Size(384, 106);
             label1.TabIndex = 0;
             label1.Text = "Welcome";
+            // 
+            // panel2
+            // 
+            panel2.Dock = DockStyle.Bottom;
+            panel2.Location = new Point(300, 667);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(1278, 77);
+            panel2.TabIndex = 22;
             // 
             // MainForm
             // 
@@ -182,5 +203,6 @@
         private Button BT_ShowIssues;
         private Panel panel2;
         private Label label1;
+        private Button BT_UserProfile;
     }
 }

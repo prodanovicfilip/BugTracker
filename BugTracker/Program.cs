@@ -44,7 +44,6 @@ namespace BugTracker
                         Description = "Feature " + i + " is broken",
                         Priority = Issue.PriorityLevel.Low,
                         Status = Issue.IssueStatus.Open,
-                        //UserId = 1,
                         ProjectId = project.Id
                     });
                     context.SaveChanges();
@@ -53,7 +52,6 @@ namespace BugTracker
             catch (Exception ex)
             {
                 throw ex;
-                //return;
             }
         }
 
@@ -69,9 +67,9 @@ namespace BugTracker
                 context.Users.Add(new User() { UserName = "Admin", Password = "admin", Email = "admin@gmail.com", UserRole = User.Role.Admin });
                 context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return;
+                throw ex;
             }
         }
 
@@ -87,9 +85,9 @@ namespace BugTracker
                 context.Projects.Add(new Project() { ProjectName = "One", StartDate = DateTime.Now, EndDate = DateTime.Now });
                 context.SaveChanges();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return;
+                throw ex;
             }
         }
 
@@ -109,11 +107,11 @@ namespace BugTracker
             Services.AddTransient<ShowIssues>();
             Services.AddTransient<ShowUsers>();
             Services.AddTransient<UserSelectionForm>();
+            Services.AddTransient<UserProfile>();
 
             Services.AddSingleton<IUserRepository, UserRepository>();
             Services.AddSingleton<IProjectRepository, ProjectRepository>();
             Services.AddSingleton<IIssueRepository, IssueRepository>();
-            //services.AddSingleton<IExportService, ExportService>();
         }
 
         public static void BuildServiceProvider(out LoginForm form)

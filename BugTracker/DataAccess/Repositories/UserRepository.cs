@@ -60,12 +60,12 @@ namespace BugTracker.DataAccess.Repositories
             }
 
             _context.Users.Remove(entity);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public User Login(string username, string password)
         {
-            return _context.Users.FirstOrDefault(s => s.UserName == username && s.Password == password);
+            return _context.Users.Include(u => u.AssignedProjects).Include(u => u.AssignedIssues).FirstOrDefault(s => s.UserName == username && s.Password == password);
         }
 
         public List<Project> GetProjectsForUser(User user)

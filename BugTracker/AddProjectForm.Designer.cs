@@ -36,7 +36,7 @@
             DTP_End = new DateTimePicker();
             BT_Create = new Button();
             BT_Close = new Button();
-            label4 = new Label();
+            LB_User = new Label();
             CB_Users = new ComboBox();
             SuspendLayout();
             // 
@@ -114,17 +114,17 @@
             BT_Close.UseVisualStyleBackColor = true;
             BT_Close.Click += BT_Close_Click;
             // 
-            // label4
+            // LB_User
             // 
-            label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label4.ForeColor = SystemColors.Control;
-            label4.Location = new Point(580, 96);
-            label4.Name = "label4";
-            label4.Size = new Size(50, 25);
-            label4.TabIndex = 18;
-            label4.Text = "User";
+            LB_User.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            LB_User.AutoSize = true;
+            LB_User.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            LB_User.ForeColor = SystemColors.Control;
+            LB_User.Location = new Point(580, 96);
+            LB_User.Name = "LB_User";
+            LB_User.Size = new Size(50, 25);
+            LB_User.TabIndex = 18;
+            LB_User.Text = "User";
             // 
             // CB_Users
             // 
@@ -141,7 +141,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(33, 31, 45);
             ClientSize = new Size(1256, 602);
-            Controls.Add(label4);
+            Controls.Add(LB_User);
             Controls.Add(CB_Users);
             Controls.Add(BT_Close);
             Controls.Add(BT_Create);
@@ -169,7 +169,7 @@
         private DateTimePicker DTP_End;
         private Button BT_Create;
         private Button BT_Close;
-        private Label label4;
+        private Label LB_User;
         private ComboBox CB_Users;
     }
 }

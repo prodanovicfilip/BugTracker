@@ -15,7 +15,6 @@ namespace BugTracker.DTO
         public string Summary { get; set; }
         public PriorityLevel Priority { get; set; }
         public IssueStatus Status { get; set; }
-        public string AssignedToUser { get; set; }
-        public string RelatedProject { get; set; }
+
     }
 }

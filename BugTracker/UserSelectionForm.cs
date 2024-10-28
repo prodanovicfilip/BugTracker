@@ -27,26 +27,22 @@ namespace BugTracker
 
         private void UserSelectionForm_Load(object sender, EventArgs e)
         {
-
-            if (_userRepository.GetAll() != null)
+            if (_userRepository.GetAll() == null)
             {
-                _users = _userRepository.GetAll().ToList().Adapt<List<UserWithIssueDTO>>();
-                
-                foreach(var user in _users)
+                return;
+            }
+            _users = _userRepository.GetAll().ToList().Adapt<List<UserWithIssueDTO>>();
+            if (_issueRepository.GetById(_issue.Id).Users != null)
+            {
+                foreach (var user in _users)
                 {
-                    if (_issueRepository.GetAll().Any(i => i.Users == null))
-                    {
-                        continue;
-                    }
-                        
-                    if (_issueRepository.GetAll().Any(i => i.Users.Any(u => u.UserName.Equals(user.UserName))))
+                    if (_issueRepository.GetById(_issue.Id).Users.Any(u => u.UserName == user.UserName))
                     {
                         user.HasIssue = true;
                     }
                 }
-
-                DGV_Users.DataSource = _users;
             }
+            DGV_Users.DataSource = _users;
         }
 
         private void BT_Save_Click(object sender, EventArgs e)
