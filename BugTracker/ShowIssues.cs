@@ -1,7 +1,9 @@
 ﻿using System.Data;
 using BugTracker.DataAccess.Entities;
 using BugTracker.DataAccess.Infrastructure;
+using BugTracker.DTO;
 using BugTracker.Utilities;
+using Mapster;
 
 namespace BugTracker
 {
@@ -21,7 +23,7 @@ namespace BugTracker
         {
             if (_issueRepository.GetAll() != null)
             {
-                DGV_Issues.DataSource = _issueRepository.GetAll();
+                DGV_Issues.DataSource = _issueRepository.GetAll().Adapt<List<IssueDTO>>();
                 if (_issueRepository.GetAll().Count() > 0)
                 {
                     DGV_Issues.Rows[0].Selected = true;
@@ -96,6 +98,7 @@ namespace BugTracker
                     try
                     {
                         _issueRepository.DeleteById(_issue.Id);
+                        _issue = _issueRepository.GetAll().FirstOrDefault();
                     }
                     catch (Exception ex)
                     {

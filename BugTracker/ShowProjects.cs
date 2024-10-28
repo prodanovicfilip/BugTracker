@@ -1,7 +1,9 @@
 ﻿using System.Windows.Forms;
 using BugTracker.DataAccess.Entities;
 using BugTracker.DataAccess.Infrastructure;
+using BugTracker.DTO;
 using BugTracker.Utilities;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace BugTracker
@@ -31,7 +33,7 @@ namespace BugTracker
         {
             if (_projectRepository.GetAll() != null)
             {
-                DGV_Projects.DataSource = _projectRepository.GetAll();
+                DGV_Projects.DataSource = _projectRepository.GetAll().Adapt<List<ProjectDTO>>();
                 if (_projectRepository.GetAll().Count() > 0)
                 {
                     DGV_Projects.Rows[0].Selected = true;
@@ -85,6 +87,7 @@ namespace BugTracker
                     try
                     {
                         _projectRepository.DeleteById(_project.Id);
+                        _project = _projectRepository.GetAll().FirstOrDefault();
                     }
                     catch (Exception ex)
                     {
